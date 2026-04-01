@@ -1,6 +1,5 @@
 #!/bin/bash
 # Start 3 nodes in the background. Stop with: pkill -f raft_node
-cd "$(dirname "$0")"
 python3 raft_node.py 0 &
 python3 raft_node.py 1 &
 python3 raft_node.py 2 &
