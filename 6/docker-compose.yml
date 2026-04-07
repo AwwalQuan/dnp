@@ -1,0 +1,24 @@
+# Tutorial 6: Two nodes — primary and replica (replication lag demo)
+# Run: docker compose up -d
+# Then use curl to primary (writes) and replica (reads) — see TUTORIAL_06.md §6.1
+
+services:
+  primary:
+    build: .
+    command: ["python", "primary.py"]
+    environment:
+      PORT: "5000"
+      REPLICA_URL: "http://replica:5001"
+      REPLICATION_DELAY_SEC: "${REPLICATION_DELAY_SEC:-180}"   # default 3 min; override to see updates sooner (e.g. 10)
+    ports:
+      - "5000:5000"
+    depends_on:
+      - replica
+
+  replica:
+    build: .
+    command: ["python", "replica.py"]
+    environment:
+      PORT: "5001"
+    ports:
+      - "5001:5001"
